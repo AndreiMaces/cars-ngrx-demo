@@ -1,0 +1,31 @@
+{
+  "users": [
+    { "id": 1, "username": "admin", "email": "admin@example.com", "password": "admin123" },
+    { "id": 2, "username": "user", "email": "user@example.com", "password": "user123" }
+  ],
+  "cars": [
+    { "id": 1, "make": "Toyota", "model": "Camry", "year": 2022, "color": "Silver" },
+    { "id": 2, "make": "Honda", "model": "Accord", "year": 2023, "color": "Black" },
+    { "id": 3, "make": "Ford", "model": "Mustang", "year": 2021, "color": "Red" },
+    { "id": 4, "make": "BMW", "model": "320i", "year": 2024, "color": "White" },
+    { "id": 5, "make": "Volkswagen", "model": "Golf", "year": 2020, "color": "Blue" },
+    { "id": 6, "make": "Mercedes-Benz", "model": "C-Class", "year": 2023, "color": "Black" }
+  ],
+  "carParts": [
+    { "id": 1, "name": "Engine Filter", "carId": 1, "partNumber": "TF-001" },
+    { "id": 2, "name": "Oil Filter", "carId": 1, "partNumber": "TF-002" },
+    { "id": 3, "name": "Air Filter", "carId": 1, "partNumber": "TF-003" },
+    { "id": 4, "name": "Brake Pads", "carId": 2, "partNumber": "HA-001" },
+    { "id": 5, "name": "Spark Plugs", "carId": 2, "partNumber": "HA-002" },
+    { "id": 6, "name": "Alternator Belt", "carId": 2, "partNumber": "HA-003" },
+    { "id": 7, "name": "Timing Belt", "carId": 3, "partNumber": "FM-001" },
+    { "id": 8, "name": "Clutch Kit", "carId": 3, "partNumber": "FM-002" },
+    { "id": 9, "name": "Front Bumper", "carId": 3, "partNumber": "FM-003" },
+    { "id": 10, "name": "Headlight Assembly", "carId": 4, "partNumber": "BM-001" },
+    { "id": 11, "name": "Wiper Motor", "carId": 4, "partNumber": "BM-002" },
+    { "id": 12, "name": "Battery", "carId": 5, "partNumber": "VW-001" },
+    { "id": 13, "name": "Starter Motor", "carId": 5, "partNumber": "VW-002" },
+    { "id": 14, "name": "Radiator", "carId": 6, "partNumber": "MB-001" },
+    { "id": 15, "name": "Water Pump", "carId": 6, "partNumber": "MB-002" }
+  ]
+}

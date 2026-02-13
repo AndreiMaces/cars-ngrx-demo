@@ -16,7 +16,14 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({ auth: authReducer, router: routerReducer }),
+    provideStore({ auth: authReducer, router: routerReducer }, {
+      runtimeChecks: {
+        strictStateSerializability: true,
+        strictActionSerializability: true,
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      }
+    }),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideEffects(AuthEffects),
     provideRouterStore(

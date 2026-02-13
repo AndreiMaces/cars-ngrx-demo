@@ -5,18 +5,18 @@ import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { authReducer } from './auth/reducers';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './auth/auth.effects';
 import { provideRouterStore, RouterState } from '@ngrx/router-store';
-import { routerReducer } from '@ngrx/router-store';
+import { metaReducers, reducers } from './reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({ auth: authReducer, router: routerReducer }, {
+    provideStore(reducers, {
+      metaReducers: metaReducers,
       runtimeChecks: {
         strictStateSerializability: true,
         strictActionSerializability: true,

@@ -8,14 +8,22 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { authReducer } from './auth/reducers';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './auth/auth.effects';
+import { provideRouterStore, RouterState } from '@ngrx/router-store';
+import { routerReducer } from '@ngrx/router-store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({ auth: authReducer }),
+    provideStore({ auth: authReducer, router: routerReducer }),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideEffects(AuthEffects)
+    provideEffects(AuthEffects),
+    provideRouterStore(
+      {
+        stateKey: 'router',
+        routerState: RouterState.Minimal
+      }
+    )
   ]
 };

@@ -10,10 +10,12 @@ export const routes: Routes = [
     },
     {
         path: 'auth',
+        canActivate: [isNotAuthenticatedGuard],
         loadChildren: () => import('./auth/auth-module').then(m => m.AuthModule)
     },
     {
         path: 'cars',
+        canActivate: [isAuthenticatedGuard],
         loadChildren: () => import('./features/cars/cars-module').then(m => m.CarsModule)
     }
 ];

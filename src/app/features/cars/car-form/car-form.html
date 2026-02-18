@@ -1,0 +1,90 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+  <div>
+    <label for="car-form-make" class="mb-1 block text-sm font-medium text-gray-300">Make</label>
+    <input
+      id="car-form-make"
+      type="text"
+      formControlName="make"
+      [class.border-red-500]="make.touched && make.invalid"
+      class="block w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+    @if (make.touched && make.invalid && make.errors) {
+      <p class="mt-1 text-sm text-red-400">
+        @if (make.errors['required']) { Make is required. }
+      </p>
+    }
+  </div>
+
+  <div>
+    <label for="car-form-model" class="mb-1 block text-sm font-medium text-gray-300">Model</label>
+    <input
+      id="car-form-model"
+      type="text"
+      formControlName="model"
+      [class.border-red-500]="model.touched && model.invalid"
+      class="block w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+    @if (model.touched && model.invalid && model.errors) {
+      <p class="mt-1 text-sm text-red-400">
+        @if (model.errors['required']) { Model is required. }
+      </p>
+    }
+  </div>
+
+  <div>
+    <label for="car-form-year" class="mb-1 block text-sm font-medium text-gray-300">Year</label>
+    <input
+      id="car-form-year"
+      type="number"
+      formControlName="year"
+      min="1900"
+      max="2100"
+      placeholder="Optional"
+      [class.border-red-500]="year.touched && year.invalid"
+      class="block w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+    @if (year.touched && year.invalid && year.errors) {
+      <p class="mt-1 text-sm text-red-400">
+        @if (year.errors['min']) {
+          Year must be at least {{ yearMin }}.
+        } @else if (year.errors['max']) {
+          Year must be at most {{ yearMax }}.
+        }
+      </p>
+    }
+  </div>
+
+  <div>
+    <label for="car-form-color" class="mb-1 block text-sm font-medium text-gray-300">Color</label>
+    <input
+      id="car-form-color"
+      type="text"
+      formControlName="color"
+      [class.border-red-500]="color.touched && color.invalid"
+      class="block w-full rounded-md border border-gray-600 bg-gray-700 px-3 py-2 text-white placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+    @if (color.touched && color.invalid && color.errors) {
+      <p class="mt-1 text-sm text-red-400">
+        @if (color.errors['required']) { Color is required. }
+      </p>
+    }
+  </div>
+
+  <div class="flex justify-end gap-2 pt-2">
+    <button
+      type="button"
+      (click)="onCancel()"
+      class="rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+      Cancel
+    </button>
+    <button
+      type="submit"
+      [disabled]="saving()"
+      class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-70 disabled:pointer-events-none">
+      @if (saving()) {
+        <span
+          class="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin"
+          aria-hidden="true"></span>
+        <span>{{ savingLabel() }}</span>
+      } @else {
+        <span>{{ submitLabel() }}</span>
+      }
+    </button>
+  </div>
+</form>

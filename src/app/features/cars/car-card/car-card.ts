@@ -9,4 +9,5 @@ import { Car } from '../../../core/models/car';
 export class CarCard {
   readonly car = input.required<Car>();
   readonly editCar = output<Car>();
+  readonly deleteCar = output<Car>();
 }

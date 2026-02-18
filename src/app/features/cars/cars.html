@@ -7,12 +7,52 @@
     </button>
   </header>
 
-  @if (showCarDialog()) {
+  @if (showCarDialog() && !carToEdit()) {
     <app-add-car-dialog
-      [car]="carToEdit()"
       [saving]="savingDialog()"
-      (submitForm)="onSubmitCar($event)"
+      (submitForm)="onSubmitAdd($event)"
       (closeDialog)="closeCarDialog()" />
+  }
+  @if (showCarDialog() && carToEdit(); as car) {
+    <app-edit-car-dialog
+      [car]="car"
+      (submitForm)="onSubmitEdit($event)"
+      (closeDialog)="closeCarDialog()" />
+  }
+
+  @if (carToDelete(); as car) {
+    <div
+      class="fixed inset-0 z-[1100] flex items-center justify-center bg-black/60 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="delete-confirm-title"
+      (click)="closeDeleteConfirm()">
+      <div
+        class="w-full max-w-sm rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-xl"
+        (click)="$event.stopPropagation()"
+        data-dialog-content>
+        <h2 id="delete-confirm-title" class="mb-2 text-lg font-semibold text-white">
+          Delete car
+        </h2>
+        <p class="mb-4 text-gray-300">
+          Are you sure you want to delete {{ car.make }} {{ car.model }}?
+        </p>
+        <div class="flex justify-end gap-2">
+          <button
+            type="button"
+            (click)="closeDeleteConfirm()"
+            class="rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+            Cancel
+          </button>
+          <button
+            type="button"
+            (click)="confirmDeleteCar()"
+            class="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
   }
 
   @if (errors$ | async) {
@@ -25,7 +65,7 @@
   } @else {
   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     @for (car of cars; track car.id) {
-    <app-car-card [car]="car" (editCar)="openEditDialog($event)" />
+    <app-car-card [car]="car" (editCar)="openEditDialog($event)" (deleteCar)="openDeleteConfirm($event)" />
     }
   </div>
   }

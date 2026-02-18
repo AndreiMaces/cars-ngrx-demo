@@ -1,14 +1,15 @@
 import { Component, input, output } from '@angular/core';
+import { Car } from '../../../core/models/car';
 import { CarForm, CarFormValue } from '../car-form/car-form';
 
 @Component({
-  selector: 'app-add-car-dialog',
+  selector: 'app-edit-car-dialog',
   standalone: true,
   imports: [CarForm],
-  templateUrl: './add-car-dialog.html',
+  templateUrl: './edit-car-dialog.html',
 })
-export class AddCarDialog {
-  readonly saving = input<boolean>(false);
+export class EditCarDialog {
+  readonly car = input.required<Car>();
   readonly submitForm = output<CarFormValue>();
   readonly closeDialog = output<void>();
 

@@ -1,0 +1,47 @@
+<div class="max-w-3xl mx-auto p-4">
+  <a routerLink="/cars" class="text-blue-600 hover:underline mb-4 inline-block">Back to cars</a>
+
+  @if (car$ | async; as car) {
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+      {{ car.make }} {{ car.model }}
+    </h1>
+    <dl class="grid grid-cols-2 gap-2 text-gray-700 dark:text-gray-300">
+      <dt class="font-medium">Year</dt>
+      <dd>{{ car.year }}</dd>
+      <dt class="font-medium">Color</dt>
+      <dd>{{ car.color }}</dd>
+    </dl>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      Car parts
+    </h2>
+    @if (carParts$ | async; as parts) {
+    @if (parts.length) {
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+      {{ parts.length }} part(s)
+    </p>
+    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+      @for (part of parts; track part.id) {
+      <li class="py-3 flex justify-between items-center text-gray-900 dark:text-white">
+        <span>{{ part.name }}</span>
+        <span class="text-sm text-gray-500 dark:text-gray-400">{{ part.partNumber }}</span>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="text-gray-500 dark:text-gray-400">No parts for this car.</p>
+    }
+    }
+    @if (loadingCarParts$ | async; as loading) {
+    <div>
+      <div class="h-4 w-4 rounded-full border-2 border-gray-600 border-t-white animate-spin" aria-hidden="true"></div>
+    </div>
+    }
+  </div>
+  } @else {
+  <p class="text-gray-500 dark:text-gray-400">Car not found.</p>
+  }
+</div>

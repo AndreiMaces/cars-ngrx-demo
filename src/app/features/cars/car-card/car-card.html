@@ -15,10 +15,10 @@
     </dl>
   </div>
   <div class="flex flex-wrap gap-2 border-t border-gray-700 pt-3">
-    <button type="button"
-      class="cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+    <a [routerLink]="['/cars', car().id]"
+      class="inline-block cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800 no-underline">
       View
-    </button>
+    </a>
     <button type="button" (click)="editCar.emit(car())"
       class="cursor-pointer rounded-md bg-gray-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
       Edit

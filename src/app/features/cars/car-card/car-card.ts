@@ -1,9 +1,11 @@
 import { Component, input, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Car } from '../../../core/models/car';
 
 @Component({
   selector: 'app-car-card',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './car-card.html',
 })
 export class CarCard {

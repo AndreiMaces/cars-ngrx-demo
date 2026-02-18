@@ -12,6 +12,7 @@ import { provideEntityData, withEffects } from '@ngrx/data';
 import { DefaultDataServiceConfig } from '@ngrx/data';
 import { metaReducers, reducers } from './reducers';
 import { carEntityMetadata } from './features/cars/car-entity-metadata';
+import { carPartEntityMetadata } from './features/cars/car-part-entity-metadata';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -44,6 +45,10 @@ export const appConfig: ApplicationConfig = {
             entityResourceUrl: 'api/cars/',
             collectionResourceUrl: 'api/cars/',
           },
+          CarPart: {
+            entityResourceUrl: 'api/carParts/',
+            collectionResourceUrl: 'api/carParts/',
+          },
         },
       },
     },
@@ -51,6 +56,13 @@ export const appConfig: ApplicationConfig = {
       {
         entityMetadata: carEntityMetadata,
         pluralNames: { Car: 'cars' },
+      },
+      withEffects()
+    ),
+    provideEntityData(
+      {
+        entityMetadata: carPartEntityMetadata,
+        pluralNames: { CarPart: 'carParts' },
       },
       withEffects()
     )

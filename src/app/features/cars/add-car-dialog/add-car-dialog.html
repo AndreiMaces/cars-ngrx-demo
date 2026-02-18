@@ -3,7 +3,9 @@
   <div role="dialog" aria-modal="true" aria-labelledby="add-car-title"
     class="w-full max-w-md rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-xl"
     (click)="$event.stopPropagation()">
-    <h2 id="add-car-title" class="mb-4 text-xl font-semibold text-white">Add car</h2>
+    <h2 id="add-car-title" class="mb-4 text-xl font-semibold text-white">
+      {{ isEditMode ? 'Edit car' : 'Add car' }}
+    </h2>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
       <div>
@@ -66,7 +68,7 @@
 
       <div class="flex justify-end gap-2 pt-2">
         <button type="button" (click)="onClose()"
-          class="rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+          class="cursor-pointer rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
           Cancel
         </button>
         <button type="submit" [disabled]="saving()"
@@ -74,9 +76,9 @@
           @if (saving()) {
           <span class="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin"
             aria-hidden="true"></span>
-          <span>Adding...</span>
+          <span>{{ isEditMode ? 'Saving...' : 'Adding...' }}</span>
           } @else {
-          <span>Add car</span>
+          <span>{{ isEditMode ? 'Save' : 'Add car' }}</span>
           }
         </button>
       </div>

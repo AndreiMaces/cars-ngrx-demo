@@ -7,11 +7,12 @@
     </button>
   </header>
 
-  @if (showAddDialog()) {
+  @if (showCarDialog()) {
     <app-add-car-dialog
-      [saving]="savingAdd()"
-      (submitForm)="onAddCar($event)"
-      (closeDialog)="closeAddDialog()" />
+      [car]="carToEdit()"
+      [saving]="savingDialog()"
+      (submitForm)="onSubmitCar($event)"
+      (closeDialog)="closeCarDialog()" />
   }
 
   @if (errors$ | async) {
@@ -24,7 +25,7 @@
   } @else {
   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     @for (car of cars; track car.id) {
-    <app-car-card [car]="car" />
+    <app-car-card [car]="car" (editCar)="openEditDialog($event)" />
     }
   </div>
   }

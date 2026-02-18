@@ -1,5 +1,4 @@
-<div
-  class="rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-sm transition-shadow hover:shadow-md">
+<div class="rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-sm transition-shadow hover:shadow-md">
   <div class="mb-4">
     <h3 class="text-lg font-semibold text-white">
       {{ car().make }} {{ car().model }}
@@ -16,19 +15,16 @@
     </dl>
   </div>
   <div class="flex flex-wrap gap-2 border-t border-gray-700 pt-3">
-    <button
-      type="button"
-      class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+    <button type="button"
+      class="cursor-pointer rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800">
       View
     </button>
-    <button
-      type="button"
-      class="rounded-md bg-gray-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+    <button type="button" (click)="editCar.emit(car())"
+      class="cursor-pointer rounded-md bg-gray-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
       Edit
     </button>
-    <button
-      type="button"
-      class="rounded-md bg-red-600/80 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+    <button type="button"
+      class="cursor-pointer rounded-md bg-red-600/80 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800">
       Delete
     </button>
   </div>

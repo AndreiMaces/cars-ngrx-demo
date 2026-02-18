@@ -3,7 +3,7 @@ import { AsyncPipe } from '@angular/common';
 import { EntityCollectionServiceFactory, EntityCollectionService } from '@ngrx/data';
 import { Car } from '../../core/models/car';
 import { CarCard } from './car-card/car-card';
-import { AddCarDialog, AddCarFormValue } from './add-car-dialog/add-car-dialog';
+import { AddCarDialog, CarFormValue } from './add-car-dialog/add-car-dialog';
 
 @Component({
   selector: 'app-cars',
@@ -18,40 +18,62 @@ export class Cars {
 
   readonly cars$ = this.carsService.entities$;
   readonly errors$ = this.carsService.errors$;
-  readonly showAddDialog = signal(false);
-  readonly savingAdd = signal(false);
+  readonly showCarDialog = signal(false);
+  readonly carToEdit = signal<Car | null>(null);
+  readonly savingDialog = signal(false);
   private addCorrelationId: string | null = null;
 
   openAddDialog(): void {
-    this.showAddDialog.set(true);
+    this.carToEdit.set(null);
+    this.showCarDialog.set(true);
   }
 
-  closeAddDialog(): void {
-    if (this.savingAdd()) {
-      if (this.addCorrelationId) {
-        this.carsService.cancel(this.addCorrelationId, 'User canceled');
-      }
+  openEditDialog(car: Car): void {
+    this.carToEdit.set(car);
+    this.showCarDialog.set(true);
+  }
+
+  closeCarDialog(): void {
+    if (this.savingDialog() && this.addCorrelationId) {
+      this.carsService.cancel(this.addCorrelationId, 'User canceled');
     }
-    this.savingAdd.set(false);
+    this.savingDialog.set(false);
     this.addCorrelationId = null;
-    this.showAddDialog.set(false);
+    this.carToEdit.set(null);
+    this.showCarDialog.set(false);
   }
 
-  onAddCar(value: AddCarFormValue): void {
-    this.addCorrelationId = `add-car-${Date.now()}`;
-    this.savingAdd.set(true);
-    this.carsService
-      .add(value, { correlationId: this.addCorrelationId, isOptimistic: false })
-      .subscribe({
-        next: () => {
-          this.savingAdd.set(false);
-          this.addCorrelationId = null;
-          this.closeAddDialog();
-        },
-        error: () => {
-          this.savingAdd.set(false);
-          this.addCorrelationId = null;
-        },
-      });
+  onSubmitCar(value: CarFormValue): void {
+    if (value.id != null) {
+      this.carsService
+        .update(
+          {
+            id: value.id,
+            make: value.make,
+            model: value.model,
+            year: value.year,
+            color: value.color,
+          },
+          { isOptimistic: true }
+        )
+        .subscribe({ error: () => {} });
+      this.closeCarDialog();
+    } else {
+      this.addCorrelationId = `add-car-${Date.now()}`;
+      this.savingDialog.set(true);
+      this.carsService
+        .add(value, { correlationId: this.addCorrelationId, isOptimistic: false })
+        .subscribe({
+          next: () => {
+            this.savingDialog.set(false);
+            this.addCorrelationId = null;
+            this.closeCarDialog();
+          },
+          error: () => {
+            this.savingDialog.set(false);
+            this.addCorrelationId = null;
+          },
+        });
+    }
   }
 }

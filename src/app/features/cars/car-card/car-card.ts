@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Car } from '../../../core/models/car';
 
 @Component({
@@ -8,4 +8,5 @@ import { Car } from '../../../core/models/car';
 })
 export class CarCard {
   readonly car = input.required<Car>();
+  readonly editCar = output<Car>();
 }

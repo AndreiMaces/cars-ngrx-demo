@@ -1,7 +1,9 @@
 import { Component, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Car } from '../../../core/models/car';
 
-export interface AddCarFormValue {
+export interface CarFormValue {
+  id?: number;
   make: string;
   model: string;
   year: number | null;
@@ -18,8 +20,10 @@ export class AddCarDialog {
   readonly yearMin = 1900;
   readonly yearMax = 2100;
 
+  /** When set, dialog is in edit mode; when null, add mode. */
+  readonly car = input<Car | null>(null);
   readonly saving = input<boolean>(false);
-  readonly submitForm = output<AddCarFormValue>();
+  readonly submitForm = output<CarFormValue>();
   readonly closeDialog = output<void>();
 
   form = new FormGroup({
@@ -60,6 +64,23 @@ export class AddCarDialog {
     effect(() => {
       this.saving() ? this.form.disable() : this.form.enable();
     });
+    effect(() => {
+      const c = this.car();
+      if (c) {
+        this.form.patchValue({
+          make: c.make,
+          model: c.model,
+          year: c.year,
+          color: c.color,
+        });
+      } else {
+        this.form.reset({ make: '', model: '', year: null, color: '' });
+      }
+    });
+  }
+
+  get isEditMode(): boolean {
+    return this.car() != null;
   }
 
   onSubmit(): void {
@@ -68,7 +89,11 @@ export class AddCarDialog {
       return;
     }
     const { make, model, year, color } = this.form.getRawValue();
-    this.submitForm.emit({ make, model, year, color });
+    const payload: CarFormValue = { make, model, year, color };
+    if (this.car()) {
+      payload.id = this.car()!.id;
+    }
+    this.submitForm.emit(payload);
   }
 
   onClose(): void {

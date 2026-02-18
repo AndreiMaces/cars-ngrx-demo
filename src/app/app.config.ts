@@ -35,7 +35,24 @@ export const appConfig: ApplicationConfig = {
         routerState: RouterState.Minimal
       }
     ),
-    { provide: DefaultDataServiceConfig, useValue: { root: 'api' } },
-    provideEntityData({ entityMetadata: carEntityMetadata }, withEffects())
+    {
+      provide: DefaultDataServiceConfig,
+      useValue: {
+        root: 'api',
+        entityHttpResourceUrls: {
+          Car: {
+            entityResourceUrl: 'api/cars/',
+            collectionResourceUrl: 'api/cars/',
+          },
+        },
+      },
+    },
+    provideEntityData(
+      {
+        entityMetadata: carEntityMetadata,
+        pluralNames: { Car: 'cars' },
+      },
+      withEffects()
+    )
   ]
 };

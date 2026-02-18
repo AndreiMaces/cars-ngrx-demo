@@ -40,9 +40,12 @@ function nextId(collection) {
   return ids.length ? Math.max(...ids) + 1 : 1;
 }
 
+// API router (mounted at /api so frontend's api/cars, api/login etc. work)
+const api = express.Router();
+
 // --- Auth / Login ---
 
-app.post('/login', (req, res) => {
+api.post('/login', (req, res) => {
   const { username, email, password } = req.body;
   const user = users.find(
     (u) =>
@@ -62,7 +65,7 @@ app.post('/login', (req, res) => {
 
 // --- Cars REST API ---
 
-app.get('/cars', (req, res) => {
+api.get('/cars', (req, res) => {
   const embed = req.query._embed;
   let result = [...cars];
   if (embed === 'carParts') {
@@ -74,7 +77,7 @@ app.get('/cars', (req, res) => {
   res.json(result);
 });
 
-app.get('/cars/:id', (req, res) => {
+api.get('/cars/:id', (req, res) => {
   const id = Number(req.params.id);
   const car = cars.find((c) => c.id === id);
   if (!car) return res.status(404).json({ error: 'Car not found' });
@@ -86,7 +89,7 @@ app.get('/cars/:id', (req, res) => {
   res.json(result);
 });
 
-app.post('/cars', (req, res) => {
+api.post('/cars', (req, res) => {
   const { make, model, year, color } = req.body;
   const car = {
     id: nextId(cars),
@@ -99,7 +102,7 @@ app.post('/cars', (req, res) => {
   res.status(201).json(car);
 });
 
-app.put('/cars/:id', (req, res) => {
+api.put('/cars/:id', (req, res) => {
   const id = Number(req.params.id);
   const idx = cars.findIndex((c) => c.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Car not found' });
@@ -114,7 +117,7 @@ app.put('/cars/:id', (req, res) => {
   res.json(cars[idx]);
 });
 
-app.patch('/cars/:id', (req, res) => {
+api.patch('/cars/:id', (req, res) => {
   const id = Number(req.params.id);
   const idx = cars.findIndex((c) => c.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Car not found' });
@@ -122,7 +125,7 @@ app.patch('/cars/:id', (req, res) => {
   res.json(cars[idx]);
 });
 
-app.delete('/cars/:id', (req, res) => {
+api.delete('/cars/:id', (req, res) => {
   const id = Number(req.params.id);
   const idx = cars.findIndex((c) => c.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Car not found' });
@@ -133,7 +136,7 @@ app.delete('/cars/:id', (req, res) => {
 
 // --- CarParts REST API ---
 
-app.get('/carParts', (req, res) => {
+api.get('/carParts', (req, res) => {
   const carId = req.query.carId;
   const expand = req.query._expand;
   let result = [...carParts];
@@ -150,7 +153,7 @@ app.get('/carParts', (req, res) => {
   res.json(result);
 });
 
-app.get('/carParts/:id', (req, res) => {
+api.get('/carParts/:id', (req, res) => {
   const id = Number(req.params.id);
   const part = carParts.find((p) => p.id === id);
   if (!part) return res.status(404).json({ error: 'Car part not found' });
@@ -162,7 +165,7 @@ app.get('/carParts/:id', (req, res) => {
   res.json(result);
 });
 
-app.post('/carParts', (req, res) => {
+api.post('/carParts', (req, res) => {
   const { name, carId, partNumber } = req.body;
   const part = {
     id: nextId(carParts),
@@ -174,7 +177,7 @@ app.post('/carParts', (req, res) => {
   res.status(201).json(part);
 });
 
-app.put('/carParts/:id', (req, res) => {
+api.put('/carParts/:id', (req, res) => {
   const id = Number(req.params.id);
   const idx = carParts.findIndex((p) => p.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Car part not found' });
@@ -188,7 +191,7 @@ app.put('/carParts/:id', (req, res) => {
   res.json(carParts[idx]);
 });
 
-app.patch('/carParts/:id', (req, res) => {
+api.patch('/carParts/:id', (req, res) => {
   const id = Number(req.params.id);
   const idx = carParts.findIndex((p) => p.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Car part not found' });
@@ -198,7 +201,7 @@ app.patch('/carParts/:id', (req, res) => {
   res.json(carParts[idx]);
 });
 
-app.delete('/carParts/:id', (req, res) => {
+api.delete('/carParts/:id', (req, res) => {
   const id = Number(req.params.id);
   const idx = carParts.findIndex((p) => p.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Car part not found' });
@@ -208,7 +211,21 @@ app.delete('/carParts/:id', (req, res) => {
 
 loadSeedData();
 
+app.use('/api', api);
+
+// Serve Angular static build when present (e.g. in Docker/production)
+const staticDir = path.join(__dirname, '..', 'dist', 'cars-ngrx', 'browser');
+if (fs.existsSync(staticDir)) {
+  app.use(express.static(staticDir));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(staticDir, 'index.html'));
+  });
+}
+
 app.listen(PORT, () => {
-  console.log(`Mock REST API running at http://localhost:${PORT}`);
-  console.log('Endpoints: /login, /cars, /carParts');
+  console.log(`Server running at http://localhost:${PORT}`);
+  console.log('API: /api/login, /api/cars, /api/carParts');
+  if (fs.existsSync(staticDir)) {
+    console.log('Serving frontend from dist/cars-ngrx/browser');
+  }
 });

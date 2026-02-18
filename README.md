@@ -3,7 +3,6 @@
 Demo Angular + NgRx: listă mașini, detaliu mașină cu piese, autentificare. Backend mock REST (Express) cu date din `db.json`.
 
 **DEMO:** [https://ngrx-cars.macesandrei.com](https://ngrx-cars.macesandrei.com)
-Login with the following credentials:
 
 Username: **admin**
 Password: **admin1234**

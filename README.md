@@ -4,8 +4,9 @@ Demo Angular + NgRx: listă mașini, detaliu mașină cu piese, autentificare. B
 
 **DEMO:** [https://ngrx-cars.macesandrei.com](https://ngrx-cars.macesandrei.com)
 Login with the following credentials:
-Username: admin
-Password: admin1234
+
+Username: **admin**
+Password: **admin1234**
 
 ---
 

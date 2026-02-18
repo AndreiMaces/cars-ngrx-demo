@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { EntityCollectionServiceFactory, EntityCollectionService } from '@ngrx/data';
 import { Car } from '../../core/models/car';
+import { CarCard } from './car-card/car-card';
 
 @Component({
   selector: 'app-cars',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, CarCard],
   templateUrl: './cars.html',
   styleUrl: './cars.css',
 })

@@ -8,7 +8,10 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './auth/auth.effects';
 import { provideRouterStore, RouterState } from '@ngrx/router-store';
+import { provideEntityData, withEffects } from '@ngrx/data';
+import { DefaultDataServiceConfig } from '@ngrx/data';
 import { metaReducers, reducers } from './reducers';
+import { carEntityMetadata } from './features/cars/car-entity-metadata';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,6 +34,8 @@ export const appConfig: ApplicationConfig = {
         stateKey: 'router',
         routerState: RouterState.Minimal
       }
-    )
+    ),
+    { provide: DefaultDataServiceConfig, useValue: { root: 'api' } },
+    provideEntityData({ entityMetadata: carEntityMetadata }, withEffects())
   ]
 };

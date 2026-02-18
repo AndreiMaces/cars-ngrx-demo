@@ -1,1 +1,38 @@
-<p>cars works!</p>
+<div class="cars-page">
+  <h1>Cars</h1>
+
+  @if (loading$ | async) {
+    <p class="loading">Loading cars...</p>
+  }
+
+  @if (errors$ | async) {
+    <p class="error">Error loading cars. Please try again.</p>
+  }
+
+  @if (cars$ | async; as cars) {
+    @if (cars.length === 0 && !(loading$ | async)) {
+      <p class="empty">No cars found.</p>
+    } @else {
+      <table class="cars-table">
+        <thead>
+          <tr>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Color</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (car of cars; track car.id) {
+            <tr>
+              <td>{{ car.make }}</td>
+              <td>{{ car.model }}</td>
+              <td>{{ car.year ?? '—' }}</td>
+              <td>{{ car.color }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+</div>

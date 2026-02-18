@@ -2,10 +2,12 @@ import { Action, ActionReducer, ActionReducerMap, createReducer, MetaReducer, on
 import { AuthState, authReducer } from "../auth/reducers";
 import { isDevMode } from "@angular/core";
 import { routerReducer, RouterState } from "@ngrx/router-store";
+import type { EntityCache } from "@ngrx/data";
 
 export interface AppState {
     auth: AuthState;
     router: RouterState;
+    entityCache?: EntityCache;
 }
 
 export function loggingReducer(reducer: ActionReducer<AppState>): ActionReducer<AppState> {

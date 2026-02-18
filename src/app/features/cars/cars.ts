@@ -15,6 +15,5 @@ export class Cars {
     this.entityCollectionServiceFactory.create<Car>('Car');
 
   readonly cars$ = this.carsService.entities$;
-  readonly loading$ = this.carsService.loading$;
   readonly errors$ = this.carsService.errors$;
 }

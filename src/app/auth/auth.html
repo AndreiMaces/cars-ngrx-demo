@@ -36,8 +36,16 @@
 
             <div>
                 <button
-                    class="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Sign
-                    in</button>
+                    type="submit"
+                    [disabled]="loading()"
+                    class="btn-login flex w-full justify-center items-center gap-2 rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:opacity-70 disabled:pointer-events-none">
+                    @if (loading()) {
+                        <span class="btn-spinner" aria-hidden="true"></span>
+                        <span>Signing in...</span>
+                    } @else {
+                        <span>Sign in</span>
+                    }
+                </button>
             </div>
         </form>
     </div>

@@ -1,16 +1,12 @@
 <div class="cars-page">
   <h1>Cars</h1>
 
-  @if (loading$ | async) {
-    <p class="loading">Loading cars...</p>
-  }
-
   @if (errors$ | async) {
     <p class="error">Error loading cars. Please try again.</p>
   }
 
   @if (cars$ | async; as cars) {
-    @if (cars.length === 0 && !(loading$ | async)) {
+    @if (cars.length === 0) {
       <p class="empty">No cars found.</p>
     } @else {
       <table class="cars-table">

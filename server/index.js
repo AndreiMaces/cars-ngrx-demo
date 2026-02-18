@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const delayMs = parseInt(process.env.DELAY, 10) || 0;
+const delayMs = 500;
 if (delayMs > 0) {
   app.use((req, res, next) => setTimeout(next, delayMs));
 }
@@ -217,7 +217,7 @@ app.use('/api', api);
 const staticDir = path.join(__dirname, '..', 'dist', 'cars-ngrx', 'browser');
 if (fs.existsSync(staticDir)) {
   app.use(express.static(staticDir));
-  app.get('*', (req, res) => {
+  app.get(/(.*)/, (req, res) => {
     res.sendFile(path.join(staticDir, 'index.html'));
   });
 }

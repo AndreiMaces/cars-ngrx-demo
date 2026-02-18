@@ -21,6 +21,7 @@ export class Auth {
   });
 
   readonly loading = signal(false);
+  readonly loginError = signal<string | null>(null);
 
   constructor(
     private store: Store<AppState>,
@@ -31,13 +32,20 @@ export class Auth {
     if (!this.loginForm.value.username || !this.loginForm.value.password) {
       return;
     }
+    this.loginError.set(null);
     this.loading.set(true);
     this.authApi
       .login(this.loginForm.value.username, this.loginForm.value.password)
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
-        next: (response) => this.store.dispatch(login({ user: response.user })),
-        error: () => {},
+        next: (response) => {
+          this.loginError.set(null);
+          this.store.dispatch(login({ user: response.user }));
+        },
+        error: (err) => {
+          const msg = err?.error?.error ?? 'Invalid username or password. Please try again.';
+          this.loginError.set(msg);
+        },
       });
   }
 }
